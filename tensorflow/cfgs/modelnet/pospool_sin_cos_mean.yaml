@@ -1,0 +1,22 @@
+max_epoch: 600
+batch_size: 16
+base_learning_rate: 0.002
+optimizer: 'sgd'
+momentum: 0.98
+decay_rate: 0.9885531
+decay_epoch: 1
+first_subsampling_dl: 0.02
+density_parameter: 5.0
+activation_fn: 'leaky_relu'
+init: 'msra'
+weight_decay: 0.001
+grad_norm: 100
+in_features_dim: 3
+bottleneck_ratio: 2
+first_features_dim: 72
+local_aggreagtion: 'pospool'
+pospool:
+  position_embedding: 'sin_cos'
+  reduction: 'mean'
+
+

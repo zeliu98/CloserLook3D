@@ -1,0 +1,36 @@
+max_epoch: 600
+batch_size: 8
+base_learning_rate: 0.02
+optimizer: 'sgd'
+momentum: 0.98
+decay_rate: 0.9885531
+decay_epoch: 1
+first_subsampling_dl: 0.04
+density_parameter: 5.0
+activation_fn: 'relu'
+init: 'xavier'
+bn_eps: 0.000001
+weight_decay: 0.001
+grad_norm: 100
+in_features_dim: 5
+bottleneck_ratio: 2
+first_features_dim: 72
+local_aggreagtion: 'pospool'
+pospool:
+  position_embedding: 'xyz'
+  reduction: 'mean'
+
+
+epoch_steps: 500
+validation_size: 50
+in_radius: 2.0
+augment_scale_anisotropic: True
+augment_symmetries:
+  - True
+  - False
+  - False
+augment_rotation: 'vertical'
+augment_scale_min: 0.7
+augment_scale_max: 1.3
+augment_noise: 0.001
+augment_color: 0.8

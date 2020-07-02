@@ -1,0 +1,29 @@
+max_epoch: 300
+batch_size: 8
+base_learning_rate: 0.005
+optimizer: 'adamW'
+momentum: 0.98
+decay_rate: 0.9885531
+decay_epoch: 1
+first_subsampling_dl: 0.02
+density_parameter: 5.0
+activation_fn: 'relu'
+init: 'msra'
+weight_decay: 0.001
+grad_norm: -1
+in_features_dim: 4
+bottleneck_ratio: 2
+first_features_dim: 72
+local_aggreagtion: 'pseudo_grid'
+pseudo_grid:
+  fixed_kernel_points: 'center'
+  KP_influence: 'linear'
+  KP_extent: 1.0
+  num_kernel_points: 15
+  convolution_mode: 'sum'
+  output_conv: False
+
+
+augment_scale_min: 0.8
+augment_scale_max: 1.2
+augment_noise: 0.001

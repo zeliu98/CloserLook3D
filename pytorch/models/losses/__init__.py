@@ -1,0 +1,3 @@
+from .label_smoothing_cross_entropy import LabelSmoothingCrossEntropyLoss
+from .multi_shape_cross_entropy import MultiShapeCrossEntropy
+from .masked_cross_entropy import MaskedCrossEntropy
