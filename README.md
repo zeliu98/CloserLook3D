@@ -1,23 +1,23 @@
 # A Closer Look at Local Aggregation Operators in Point Cloud Analysis
 
-By [Ze Liu](https://github.com/zeliu98), [Han Hu](https://github.com/ancientmooner), [Yue Cao](https://github.com/caoyue10), [Zheng Zhang](https://github.com/stupidZZ), [Xin Tong](http://www.xtong.info/).
+By [Ze Liu](https://github.com/zeliu98), [Han Hu](https://github.com/ancientmooner), [Yue Cao](https://github.com/caoyue10), [Zheng Zhang](https://github.com/stupidZZ), [Xin Tong](http://www.xtong.info/)
 
 **Updates**
 - July 3, 2020: initial release.
 
 ## Introduction
 
-This repo is the official implementation of ["A Closer Look at Local Aggregation Operators in Point Cloud Analysis"](https://arxiv.org/abs/2007.01294), which provides clean and the best (to-date) implementations for several representative operators including, **Point MLP based (PointNet++-Like)**, **Pseudo Grid based (KPConv-Like)** and **Adapt Weights (ContinuousConv-Like)**. It also includes a new family of local aggregation operators without learnable weights, named **Position Pooling (PosPool)**, which is simpler than previous operators but performs similarly well or slightly better. Both *PyTorch* and *TensorFlow* implementations are given.
+This repo is the official implementation of ["A Closer Look at Local Aggregation Operators in Point Cloud Analysis"](https://arxiv.org/pdf/2007.01294.pdf), which provides clean and the best (to-date) implementations for several representative operators including, **Point MLP based (PointNet++-Like)**, **Pseudo Grid based (KPConv-Like)** and **Adapt Weights (ContinuousConv-Like)**. It also includes a new family of local aggregation operators without learnable weights, named **Position Pooling (PosPool)**, which is simpler than previous operators but performs similarly well or slightly better. Both *PyTorch* and *TensorFlow* implementations are given.
 
-Three datasets are tested, including [ModelNet](https://modelnet.cs.princeton.edu/), [S3DIS](http://buildingparser.stanford.edu/dataset.html) and [PartNet](https://cs.stanford.edu/~kaichun/partnet/). Our implementations all achieve (or are close to) the state-of-the-art accuracy on these benchmarks by proper configurations of each operator type. In particular, one settings achieves 53.8 part category mean IoU on PartNet test set, which outperforms previous best implementations by 7.4 mIoU.
+Three datasets are tested, including [ModelNet](https://modelnet.cs.princeton.edu/), [S3DIS](http://buildingparser.stanford.edu/dataset.html) and [PartNet](https://cs.stanford.edu/~kaichun/partnet/). Our implementations all achieve (or are close to) the state-of-the-art accuracy on these benchmarks by proper configurations of each operator type. In particular, one settings achieves `53.8` part category mean IoU on PartNet test set, which outperforms previous best implementations by `7.4 mIoU`.
 
 ## Citation
 
 ```
-@article{liu2019closerlook3d,
+@article{liu2020closerlook3d,
   title={A Closer Look at Local Aggregation Operators in Point Cloud Analysis},
   author={Liu, Ze and Hu, Han and Cao, Yue and Zhang, Zheng and Tong, Xin},
-  journal={arXiv preprint arXiv:2007.01294},
+  journal={ECCV},
   year={2020}
 }
 ```
