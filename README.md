@@ -24,7 +24,7 @@ Three datasets are tested, including [ModelNet](https://modelnet.cs.princeton.ed
 
 ## Main Results 
 
-###ModelNet40
+### ModelNet40
 |Method | Acc| Tensorflow Model|Pytorch Model|
 |:---:|:---:|:---:|:---:|
 |Point-wise MLP| 92.8 | [Google](https://drive.google.com/drive/folders/1-CLOVeSmsA-M6sORRhg9mXWRFqloc-n5?usp=sharing) / [BaiDu(wquw)](https://pan.baidu.com/s/1SgQz8Dm561mD9CXMjYOpgw) | [Google](https://drive.google.com/file/d/1L6WHoDAijkn3r6fvEul5KvHF79KEYxC8/view?usp=sharing) / [Baidu(bfa3)](https://pan.baidu.com/s/1mzp4BhMhJwxKwchkdQnD-Q) |
@@ -33,7 +33,7 @@ Three datasets are tested, including [ModelNet](https://modelnet.cs.princeton.ed
 |PosPool| 92.9 | [Google](https://drive.google.com/drive/folders/1O34VC4APga7hykrNVuoeL8n0LCLNIv96?usp=sharing) / [BaiDu(pkzd)](https://pan.baidu.com/s/1Oo9FsRU5pl6yGy2QpjqIHw) | [Google](https://drive.google.com/file/d/1Mu87SD3VH11nmj85g3uYbIASA3lK8cm4/view?usp=sharing) / [BaiDu(1jp5)](https://pan.baidu.com/s/1jFaWDzYVbbxPSzRVMdtNSg) |
 |PosPool*| 93.2 | [Google](https://drive.google.com/drive/folders/10P_Gu5cmaJqg4VyXa27iDi32LH4rpc7o?usp=sharing) / [BaiDu(mjb1)](https://pan.baidu.com/s/1pNBfE2bdmcSY1gG6zQv8Dw) | [Google](https://drive.google.com/file/d/1_4o2osPQzM1WQ6QDqkLpwS0m0bsgHVGw/view?usp=sharing) / [BaiDu(y4xm)](https://pan.baidu.com/s/1Ik07nZguR3KsOtF9pkVHDw) |
 
-###S3DIS
+### S3DIS
 |Method | mIoU | Tensorflow Model |
 |:---:|:---:|:---:|
 |Point-wise MLP|  66.2 | [Google](https://drive.google.com/drive/folders/1a02JAQnx3WbZ2ngICNSG6fkZ-Mq_knm7?usp=sharing) / [BaiDu(4mhy)](https://pan.baidu.com/s/17wJF7G0FYgMlTzzeJDmFnQ)|
