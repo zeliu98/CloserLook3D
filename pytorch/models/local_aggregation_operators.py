@@ -38,11 +38,11 @@ class PosPool(nn.Module):
             self.out_conv = nn.Sequential(
                 nn.Conv1d(in_channels, out_channels, kernel_size=1, bias=False),
                 nn.BatchNorm1d(out_channels, eps=1e-3, momentum=0.01),
-                nn.LeakyReLU(inplace=True))
+                nn.ReLU(inplace=True))
         else:
             self.out_transform = nn.Sequential(
                 nn.BatchNorm1d(out_channels, eps=1e-3, momentum=0.01),
-                nn.LeakyReLU(inplace=True))
+                nn.ReLU(inplace=True))
 
     def forward(self, query_xyz, support_xyz, query_mask, support_mask, support_features):
         """
@@ -151,7 +151,7 @@ class AdaptiveWeight(nn.Module):
                                        self.in_channels // self.shared_channels,
                                        kernel_size=1))
         for i in range(self.num_mlps - 1):
-            self.mlps.add_module(f'relu{i}', nn.LeakyReLU(inplace=True))
+            self.mlps.add_module(f'relu{i}', nn.ReLU(inplace=True))
             self.mlps.add_module(f'conv{i + 1}',
                                  nn.Conv2d(self.in_channels // self.shared_channels,
                                            self.in_channels // self.shared_channels,
@@ -161,11 +161,11 @@ class AdaptiveWeight(nn.Module):
             self.out_conv = nn.Sequential(
                 nn.Conv1d(in_channels, out_channels, kernel_size=1, bias=False),
                 nn.BatchNorm1d(out_channels, eps=1e-3, momentum=0.01),
-                nn.LeakyReLU(inplace=True))
+                nn.ReLU(inplace=True))
         else:
             self.out_transform = nn.Sequential(
                 nn.BatchNorm1d(out_channels, eps=1e-3, momentum=0.01),
-                nn.LeakyReLU(inplace=True))
+                nn.ReLU(inplace=True))
 
     def forward(self, query_xyz, support_xyz, query_mask, support_mask, support_features):
         """
@@ -254,22 +254,22 @@ class PointWiseMLP(nn.Module):
             self.mlps.add_module('conv0', nn.Sequential(
                 nn.Conv2d(self.feature_input_channels, self.out_channels, kernel_size=1, bias=False),
                 nn.BatchNorm2d(self.out_channels, eps=1e-3, momentum=0.01),
-                nn.LeakyReLU(inplace=True)))
+                nn.ReLU(inplace=True)))
         else:
             mfdim = max(self.in_channels // 2, 9)
             self.mlps.add_module('conv0', nn.Sequential(
                 nn.Conv2d(self.feature_input_channels, mfdim, kernel_size=1, bias=False),
                 nn.BatchNorm2d(mfdim, eps=1e-3, momentum=0.01),
-                nn.LeakyReLU(inplace=True)))
+                nn.ReLU(inplace=True)))
             for i in range(self.num_mlps - 2):
                 self.mlps.add_module(f'conv{i + 1}', nn.Sequential(
                     nn.Conv2d(mfdim, mfdim, kernel_size=1, bias=False),
                     nn.BatchNorm2d(mfdim, eps=1e-3, momentum=0.01),
-                    nn.LeakyReLU(inplace=True)))
+                    nn.ReLU(inplace=True)))
             self.mlps.add_module(f'conv{self.num_mlps - 1}', nn.Sequential(
                 nn.Conv2d(mfdim, self.out_channels, kernel_size=1, bias=False),
                 nn.BatchNorm2d(self.out_channels, eps=1e-3, momentum=0.01),
-                nn.LeakyReLU(inplace=True)))
+                nn.ReLU(inplace=True)))
 
     def forward(self, query_xyz, support_xyz, query_mask, support_mask, support_features):
         """
@@ -359,11 +359,11 @@ class PseudoGrid(nn.Module):
             self.out_conv = nn.Sequential(
                 nn.Conv1d(in_channels, out_channels, kernel_size=1, bias=False),
                 nn.BatchNorm1d(out_channels, eps=1e-3, momentum=0.01),
-                nn.LeakyReLU(inplace=True))
+                nn.ReLU(inplace=True))
         else:
             self.out_transform = nn.Sequential(
                 nn.BatchNorm1d(out_channels, eps=1e-3, momentum=0.01),
-                nn.LeakyReLU(inplace=True))
+                nn.ReLU(inplace=True))
 
     def forward(self, query_xyz, support_xyz, query_mask, support_mask, support_features):
         """

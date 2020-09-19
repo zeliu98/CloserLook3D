@@ -37,6 +37,7 @@ def parse_option():
     parser.add_argument('--batch_size', type=int, help='batch_size')
     parser.add_argument('--num_points', type=int, help='num_points')
     parser.add_argument('--base_learning_rate', type=float, help='base learning rate')
+    parser.add_argument('--weight_decay', type=float, help='weight_decay')
     parser.add_argument('--epochs', type=int, help='number of training epochs')
     parser.add_argument('--start_epoch', type=int, help='used for resume')
 
@@ -67,7 +68,7 @@ def parse_option():
     config.local_rank = args.local_rank
 
     ddir_name = args.cfg.split('.')[-2].split('/')[-1]
-    config.log_dir = os.path.join(args.log_dir, 'modelnet40', ddir_name)
+    config.log_dir = os.path.join(args.log_dir, 'modelnet40', f'{ddir_name}_{int(time.time())}')
 
     if args.batch_size:
         config.batch_size = args.batch_size
@@ -75,6 +76,8 @@ def parse_option():
         config.num_points = args.num_points
     if args.base_learning_rate:
         config.base_learning_rate = args.base_learning_rate
+    if args.weight_decay:
+        config.weight_decay = args.weight_decay
     if args.epochs:
         config.epochs = args.epochs
     if args.start_epoch:
@@ -96,7 +99,7 @@ def get_loader(args):
     train_transforms = transforms.Compose([
         d_utils.PointcloudToTensor(),
         d_utils.PointcloudScaleAndJitter(scale_low=config.scale_low, scale_high=config.scale_high,
-                                         std=config.noise_std),
+                                         std=config.noise_std, clip=config.noise_clip),
     ])
 
     test_transforms = transforms.Compose([
@@ -305,7 +308,8 @@ def validate(test_loader, model, criterion, config, num_votes=10):
         vote_preds = None
         TS = d_utils.BatchPointcloudScaleAndJitter(scale_low=config.scale_low,
                                                    scale_high=config.scale_high,
-                                                   std=config.noise_std)
+                                                   std=config.noise_std,
+                                                   clip=config.noise_clip)
         # TS = d_utils.BatchPointcloudScaleAndTranslate(translate_range=0.0)
         for v in range(num_votes):
             preds = []
@@ -384,6 +388,7 @@ if __name__ == "__main__":
     best_acc = 0
     best_epoch = 0
     os.makedirs(opt.log_dir, exist_ok=True)
+    os.environ["JOB_LOG_DIR"] = config.log_dir
 
     logger = setup_logger(output=config.log_dir, distributed_rank=dist.get_rank(), name="modelnet40")
     if dist.get_rank() == 0:

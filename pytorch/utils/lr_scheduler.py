@@ -77,9 +77,10 @@ def get_scheduler(optimizer, n_iter_per_epoch, args):
     else:
         raise NotImplementedError(f"scheduler {args.lr_scheduler} not supported")
 
-    scheduler = GradualWarmupScheduler(
-        optimizer,
-        multiplier=args.warmup_multiplier,
-        after_scheduler=scheduler,
-        warmup_epoch=args.warmup_epoch * n_iter_per_epoch)
+    if args.warmup_epoch > 0:
+        scheduler = GradualWarmupScheduler(
+            optimizer,
+            multiplier=args.warmup_multiplier,
+            after_scheduler=scheduler,
+            warmup_epoch=args.warmup_epoch * n_iter_per_epoch)
     return scheduler

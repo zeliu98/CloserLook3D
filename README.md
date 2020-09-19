@@ -27,11 +27,11 @@ Three datasets are tested, including [ModelNet](https://modelnet.cs.princeton.ed
 ### ModelNet40
 |Method | Acc| Tensorflow Model|Pytorch Model|
 |:---:|:---:|:---:|:---:|
-|Point-wise MLP| 92.8 | [Google](https://drive.google.com/drive/folders/1-CLOVeSmsA-M6sORRhg9mXWRFqloc-n5?usp=sharing) / [Baidu(wquw)](https://pan.baidu.com/s/1SgQz8Dm561mD9CXMjYOpgw) | [Google](https://drive.google.com/file/d/1L6WHoDAijkn3r6fvEul5KvHF79KEYxC8/view?usp=sharing) / [Baidu(bfa3)](https://pan.baidu.com/s/1mzp4BhMhJwxKwchkdQnD-Q) |
-|Pseudo Grid| 93.0 | [Google](https://drive.google.com/drive/folders/16fUdp41jSDD9kHUrXCk_v_1LEkLFsOAp?usp=sharing) / [Baidu(lvw4)](https://pan.baidu.com/s/1xLavURu0m69BQhrZRaDrEg)  | [Google](https://drive.google.com/drive/folders/1xBo_rIst6k-69kp6agO2opew3AlYFyjh?usp=sharing) / [Baidu(nslj)](https://pan.baidu.com/s/1cv3RugkiQ9_dGxUIBvCu8Q) |
-|Adapt Weights| 93.0 | [Google](https://drive.google.com/drive/folders/1KSVZvPdqTE0I6fceIx7y6Xp1uaxEd5R3?usp=sharing) / [Baidu(6zrg)](https://pan.baidu.com/s/1byai_J1xi8oSr3iJSyTynw) | [Google](https://drive.google.com/file/d/1tu8kO5Fyir1V3Doy-6MguJ58nkPfoIMh/view?usp=sharing) / [Baidu(81uf)](https://pan.baidu.com/s/1thUW2gZcuFKzT0yJG8rMEA) |
-|PosPool| 92.9 | [Google](https://drive.google.com/drive/folders/1O34VC4APga7hykrNVuoeL8n0LCLNIv96?usp=sharing) / [Baidu(pkzd)](https://pan.baidu.com/s/1Oo9FsRU5pl6yGy2QpjqIHw) | [Google](https://drive.google.com/file/d/1Mu87SD3VH11nmj85g3uYbIASA3lK8cm4/view?usp=sharing) / [Baidu(1jp5)](https://pan.baidu.com/s/1jFaWDzYVbbxPSzRVMdtNSg) |
-|PosPool*| 93.2 | [Google](https://drive.google.com/drive/folders/10P_Gu5cmaJqg4VyXa27iDi32LH4rpc7o?usp=sharing) / [Baidu(mjb1)](https://pan.baidu.com/s/1pNBfE2bdmcSY1gG6zQv8Dw) | [Google](https://drive.google.com/file/d/1_4o2osPQzM1WQ6QDqkLpwS0m0bsgHVGw/view?usp=sharing) / [Baidu(y4xm)](https://pan.baidu.com/s/1Ik07nZguR3KsOtF9pkVHDw) |
+|Point-wise MLP| 92.8 | [Google](https://drive.google.com/drive/folders/1-CLOVeSmsA-M6sORRhg9mXWRFqloc-n5?usp=sharing) / [Baidu(wquw)](https://pan.baidu.com/s/1SgQz8Dm561mD9CXMjYOpgw) | [Google](https://drive.google.com/file/d/15O_W7gxgO8JbzduAQEXd4hHvSh5cYRA9/view?usp=sharing) / [Baidu(fj13)](https://pan.baidu.com/s/1GmBNCTeyWoE7ISKsnSqlJA) |
+|Pseudo Grid| 93.0 | [Google](https://drive.google.com/drive/folders/16fUdp41jSDD9kHUrXCk_v_1LEkLFsOAp?usp=sharing) / [Baidu(lvw4)](https://pan.baidu.com/s/1xLavURu0m69BQhrZRaDrEg)  | [Google](https://drive.google.com/drive/folders/1ZYG_jIUWXcyf-HuAH-zT-QUIZaIgwjhv?usp=sharing) / [Baidu(gmh5)](https://pan.baidu.com/s/1JZDIZGnZZvzMac5bkuMGng) |
+|Adapt Weights| 93.0 | [Google](https://drive.google.com/drive/folders/1KSVZvPdqTE0I6fceIx7y6Xp1uaxEd5R3?usp=sharing) / [Baidu(6zrg)](https://pan.baidu.com/s/1byai_J1xi8oSr3iJSyTynw) | [Google](https://drive.google.com/file/d/1ZxLi0loYV3tdaBgbuJfHXqtknMFmLjh1/view?usp=sharing) / [Baidu(bbus)](https://pan.baidu.com/s/1yS9RfdQtCHNsIkKGrfeDFg) |
+|PosPool| 92.9 | [Google](https://drive.google.com/drive/folders/1O34VC4APga7hykrNVuoeL8n0LCLNIv96?usp=sharing) / [Baidu(pkzd)](https://pan.baidu.com/s/1Oo9FsRU5pl6yGy2QpjqIHw) | [Google](https://drive.google.com/file/d/1j9_JqxVPEsRjhOMQUeTxmyhJQ9zb65RC/view?usp=sharing) / [Baidu(wuuv)](https://pan.baidu.com/s/1tTjFEIhfqrttRxb32h2URQ) |
+|PosPool*| 93.2 | [Google](https://drive.google.com/drive/folders/10P_Gu5cmaJqg4VyXa27iDi32LH4rpc7o?usp=sharing) / [Baidu(mjb1)](https://pan.baidu.com/s/1pNBfE2bdmcSY1gG6zQv8Dw) | [Google](https://drive.google.com/file/d/1HSu6K-prMka4tnjx6pMh82oy2igbKzCV/view?usp=sharing) / [Baidu(qcc6)](https://pan.baidu.com/s/1vtwsqdCYUXKiMBc240JhqA) |
 
 ### S3DIS
 |Method | mIoU | Tensorflow Model |
@@ -50,6 +50,15 @@ Three datasets are tested, including [ModelNet](https://modelnet.cs.princeton.ed
 |Adapt Weights| 50.1 | 53.5 | [Google](https://drive.google.com/drive/folders/1am3oRLnvj5crHXkLl00gAmdE54vGucPe?usp=sharing) / [Baidu(551l)](https://pan.baidu.com/s/1S58JVu2IFxphRO1DkNhiOw) |
 |PosPool| 50.0 | 53.4 | [Google](https://drive.google.com/drive/folders/1KxjArkFtRUCDkVU8CLO3halL1sU3aZ0N?usp=sharing) / [Baidu(rb4x)](https://pan.baidu.com/s/1CUyjDucCp7xU5MDt-a2Y9Q) |
 |PosPool*| 50.6 | 53.8 | [Google](https://drive.google.com/drive/folders/1eKfuVctpSiAsIpdT0JA3Ns5Su0UhN0QA?usp=sharing) / [Baidu(2ts3)](https://pan.baidu.com/s/1oE2BJJBw137DJ_D7iFweFw) |
+
+### ShapeNetPart
+|Method | mIoU | msIoU | Acc |Pytorch Model |
+|:---:|:---:|:---:|:---:|:---:|
+|Point-wise MLP| 85.7 | 84.1| 94.5 |[Google](https://drive.google.com/file/d/1XLihNmX39zQEoKZ2_qwrxiKzngqTLy_9/view?usp=sharing) / [Baidu(mi2m)](https://pan.baidu.com/s/1MmsQ-m-SIVm2kfgZmp1_Qw)|
+|Pseudo Grid| 86.0 | 84.3 | 94.6 |[Google](https://drive.google.com/drive/folders/1qSsj6gmFcn_SElrvZ2OEq6i-Pa1wxC35?usp=sharing) / [Baidu(wde6)](https://pan.baidu.com/s/1Hi20w5j0KfkrTgU6oBgUVQ)|
+|Adapt Weights| 85.9 | 84.5 | 94.6 |[Google](https://drive.google.com/file/d/1pjfy3tnnwNO4BV9rXgN82U4njg_YMbSd/view?usp=sharing) / [Baidu(dy1k)](https://pan.baidu.com/s/144VaHNCZHip8Wf-oFaBqUA) |
+|PosPool| 85.9 | 84.6 | 94.6 |[Google](https://drive.google.com/file/d/1ca-XO_KEHv9ozB4WoF7sh-p2SPkbnt2I/view?usp=sharing) / [Baidu(r2tr)](https://pan.baidu.com/s/1T41i8m3L8CRF_I_QU3j_QA)|
+|PosPool*| 86.2 | 84.8 | 94.8 |[Google](https://drive.google.com/file/d/1Qt3mrxcstKIPidCJqEBAKt5a5zHhn-rW/view?usp=sharing) / [Baidu(27ie)](https://pan.baidu.com/s/1QOWKIoO2cEuvc3b6G2RVWg) |
 
 **Notes:**
 - Overall accuracy for ModelNet40, mean IoU for S3DIS with Area-5, mean part-category IoU for PartNet are reported.

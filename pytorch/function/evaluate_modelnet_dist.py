@@ -52,7 +52,7 @@ def parse_option():
     config.local_rank = args.local_rank
 
     ddir_name = args.cfg.split('.')[-2].split('/')[-1]
-    config.log_dir = os.path.join(args.log_dir, 'modelnet40', ddir_name)
+    config.log_dir = os.path.join(args.log_dir, 'modelnet40', f'{ddir_name}_{int(time.time())}')
 
     if args.batch_size:
         config.batch_size = args.batch_size
@@ -62,10 +62,10 @@ def parse_option():
     print(args)
     print(config)
 
-    torch.manual_seed(args.rng_seed)
-    torch.cuda.manual_seed_all(args.rng_seed)
-    random.seed(args.rng_seed)
-    np.random.seed(args.rng_seed)
+    # torch.manual_seed(args.rng_seed)
+    # torch.cuda.manual_seed_all(args.rng_seed)
+    # random.seed(args.rng_seed)
+    # np.random.seed(args.rng_seed)
 
     return args, config
 
@@ -135,7 +135,8 @@ def validate(test_loader, model, criterion, config, num_votes=10):
         vote_preds = None
         TS = d_utils.BatchPointcloudScaleAndJitter(scale_low=config.scale_low,
                                                    scale_high=config.scale_high,
-                                                   std=config.noise_std)
+                                                   std=config.noise_std,
+                                                   clip=config.noise_clip)
         for v in range(num_votes):
             preds = []
             targets = []
@@ -203,6 +204,8 @@ if __name__ == "__main__":
     torch.backends.cudnn.benchmark = True
     torch.backends.cudnn.deterministic = True
     os.makedirs(opt.log_dir, exist_ok=True)
+
+    os.environ["JOB_LOAD_DIR"] = os.path.dirname(config.load_path)
 
     logger = setup_logger(output=config.log_dir, distributed_rank=dist.get_rank(), name="modelnet40_eval")
     if dist.get_rank() == 0:

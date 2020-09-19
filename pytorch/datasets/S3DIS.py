@@ -94,8 +94,6 @@ class S3DISSeg(data.Dataset):
 
         self.color_mean = np.array([0.5136457, 0.49523646, 0.44921124])
         self.color_std = np.array([0.18308958, 0.18415008, 0.19252081])
-        self.height_mean = 1.4824461
-        self.height_std = 1.1735197
 
         if data_root is None:
             self.data_root = os.path.join(ROOT_DIR, 'data')
@@ -318,7 +316,6 @@ class S3DISSeg(data.Dataset):
         original_points = points[input_inds]
         current_points = (original_points - pick_point).astype(np.float32)
         current_points_height = original_points[:, 2:]
-        current_points_height = (current_points_height - self.height_mean) / self.height_std
         current_points_height = torch.from_numpy(current_points_height).type(torch.float32)
 
         current_colors = self.sub_clouds_points_colors[cloud_ind][input_inds]

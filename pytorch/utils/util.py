@@ -182,3 +182,52 @@ def s3dis_part_metrics(num_classes, predictions, targets, val_proportions):
     # Print instance mean
     mIoU = np.mean(IoUs)
     return IoUs, mIoU
+
+
+def shapenetpart_metrics(num_classes, num_parts, objects, preds, targets, masks):
+    """
+    Args:
+        num_classes:
+        num_parts:
+        objects: [int]
+        preds:[(num_parts,num_points)]
+        targets: [(num_points)]
+        masks: [(num_points)]
+    """
+    total_correct = 0.0
+    total_seen = 0.0
+    Confs = []
+    for obj, cur_pred, cur_gt, cur_mask in zip(objects, preds, targets, masks):
+        obj = int(obj)
+        cur_num_parts = num_parts[obj]
+        cur_pred = np.argmax(cur_pred, axis=0)
+        cur_pred = cur_pred[cur_mask]
+        cur_gt = cur_gt[cur_mask]
+        correct = np.sum(cur_pred == cur_gt)
+        total_correct += correct
+        total_seen += cur_pred.shape[0]
+        parts = [j for j in range(cur_num_parts)]
+        Confs += [confusion_matrix(cur_gt, cur_pred, labels=parts)]
+
+    Confs = np.array(Confs)
+    obj_mIoUs = []
+    objects = np.asarray(objects)
+    for l in range(num_classes):
+        obj_inds = np.where(objects == l)[0]
+        obj_confs = np.stack(Confs[obj_inds])
+        obj_IoUs = IoU_from_confusions(obj_confs)
+        obj_mIoUs += [np.mean(obj_IoUs, axis=-1)]
+
+    objs_average = [np.mean(mIoUs) for mIoUs in obj_mIoUs]
+    instance_average = np.mean(np.hstack(obj_mIoUs))
+    class_average = np.mean(objs_average)
+    acc = total_correct / total_seen
+
+    print('Objs | Inst | Air  Bag  Cap  Car  Cha  Ear  Gui  Kni  Lam  Lap  Mot  Mug  Pis  Roc  Ska  Tab')
+    print('-----|------|--------------------------------------------------------------------------------')
+
+    s = '{:4.1f} | {:4.1f} | '.format(100 * class_average, 100 * instance_average)
+    for AmIoU in objs_average:
+        s += '{:4.1f} '.format(100 * AmIoU)
+    print(s + '\n')
+    return acc, objs_average, class_average, instance_average

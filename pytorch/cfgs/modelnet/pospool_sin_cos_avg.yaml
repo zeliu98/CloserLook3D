@@ -45,8 +45,7 @@ start_epoch:  1
 base_learning_rate:  0.002
 lr_scheduler:  'step'  # step,cosine
 optimizer:  'sgd'
-warmup_epoch:  10
-warmup_multiplier:  100
+warmup_epoch:  -1
 lr_decay_steps:  1
 lr_decay_rate:  0.9885531
 weight_decay:  0.001

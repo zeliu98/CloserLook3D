@@ -1,5 +1,5 @@
 """
-Distributed training script for part segmentation with PartNet dataset
+Distributed training script for part segmentation with ShapeNetPart dataset
 """
 import argparse
 import os
@@ -14,7 +14,6 @@ ROOT_DIR = os.path.dirname(BASE_DIR)
 sys.path.append(ROOT_DIR)
 
 import torch
-import torch.nn as nn
 from torchvision import transforms
 import torch.distributed as dist
 from torch.utils.tensorboard import SummaryWriter
@@ -22,24 +21,23 @@ from torch.nn.parallel import DistributedDataParallel
 
 import datasets.data_utils as d_utils
 from models import build_multi_part_segmentation
-from datasets import PartNetSeg
-from utils.util import AverageMeter, partnet_metrics
+from datasets import ShapeNetPartSeg
+from utils.util import AverageMeter, shapenetpart_metrics
 from utils.lr_scheduler import get_scheduler
 from utils.logger import setup_logger
 from utils.config import config, update_config
 
 
 def parse_option():
-    parser = argparse.ArgumentParser('PartNet part-segmentation training')
+    parser = argparse.ArgumentParser('ShapeNetPart part-segmentation training')
     parser.add_argument('--cfg', type=str, required=True, help='config file')
-    parser.add_argument('--data_root', type=str, default='data', help='root director of dataset')
+    parser.add_argument('--data_root', type=str, default='data', metavar='PATH', help='root director of dataset')
     parser.add_argument('--num_workers', type=int, default=4, help='num of workers to use')
     parser.add_argument('--batch_size', type=int, help='batch_size')
     parser.add_argument('--base_learning_rate', type=float, help='base learning rate')
     parser.add_argument('--weight_decay', type=float, help='weight_decay')
     parser.add_argument('--epochs', type=int, help='number of training epochs')
     parser.add_argument('--start_epoch', type=int, help='used for resume')
-    parser.add_argument('--grid_clip_norm', type=float, help='grid_clip_norm')
 
     # io
     parser.add_argument('--load_path', default='', type=str, metavar='PATH',
@@ -68,7 +66,7 @@ def parse_option():
     config.local_rank = args.local_rank
 
     ddir_name = args.cfg.split('.')[-2].split('/')[-1]
-    config.log_dir = os.path.join(args.log_dir, 'partnet', f'{ddir_name}_{int(time.time())}')
+    config.log_dir = os.path.join(args.log_dir, 'shapenetpart', f'{ddir_name}_{int(time.time())}')
 
     if args.batch_size:
         config.batch_size = args.batch_size
@@ -80,9 +78,6 @@ def parse_option():
         config.epochs = args.epochs
     if args.start_epoch:
         config.start_epoch = args.start_epoch
-
-    if args.grid_clip_norm:
-        config.grid_clip_norm = args.grid_clip_norm
 
     print(args)
     print(config)
@@ -107,15 +102,12 @@ def get_loader(args):
         d_utils.PointcloudToTensor()
     ])
 
-    train_dataset = PartNetSeg(input_features_dim=config.input_features_dim,
-                               data_root=args.data_root, transforms=train_transforms,
-                               split='train')
-    val_dataset = PartNetSeg(input_features_dim=config.input_features_dim,
-                             data_root=args.data_root, transforms=test_transforms,
-                             split='val')
-    test_dataset = PartNetSeg(input_features_dim=config.input_features_dim,
-                              data_root=args.data_root, transforms=test_transforms,
-                              split='test')
+    train_dataset = ShapeNetPartSeg(num_points=args.num_points,
+                                    data_root=args.data_root, transforms=train_transforms,
+                                    split='trainval')
+    test_dataset = ShapeNetPartSeg(num_points=args.num_points,
+                                   data_root=args.data_root, transforms=test_transforms,
+                                   split='test')
     train_sampler = torch.utils.data.distributed.DistributedSampler(train_dataset)
     train_loader = torch.utils.data.DataLoader(train_dataset,
                                                batch_size=args.batch_size,
@@ -124,16 +116,8 @@ def get_loader(args):
                                                pin_memory=True,
                                                sampler=train_sampler,
                                                drop_last=True)
-    val_sampler = torch.utils.data.distributed.DistributedSampler(val_dataset, shuffle=False)
-    test_sampler = torch.utils.data.distributed.DistributedSampler(test_dataset, shuffle=False)
-    val_loader = torch.utils.data.DataLoader(val_dataset,
-                                             batch_size=args.batch_size,
-                                             shuffle=False,
-                                             num_workers=args.num_workers,
-                                             pin_memory=True,
-                                             sampler=val_sampler,
-                                             drop_last=False)
 
+    test_sampler = torch.utils.data.distributed.DistributedSampler(test_dataset, shuffle=False)
     test_loader = torch.utils.data.DataLoader(test_dataset,
                                               batch_size=args.batch_size,
                                               shuffle=False,
@@ -142,7 +126,7 @@ def get_loader(args):
                                               sampler=test_sampler,
                                               drop_last=False)
 
-    return train_loader, val_loader, test_loader
+    return train_loader, test_loader
 
 
 def load_checkpoint(config, model, optimizer, scheduler):
@@ -176,11 +160,9 @@ def save_checkpoint(config, epoch, model, optimizer, scheduler):
 
 
 def main(config):
-    train_loader, val_loader, test_loader = get_loader(config)
+    train_loader, test_loader = get_loader(config)
     n_data = len(train_loader.dataset)
     logger.info(f"length of training dataset: {n_data}")
-    n_data = len(val_loader.dataset)
-    logger.info(f"length of validation dataset: {n_data}")
     n_data = len(test_loader.dataset)
     logger.info(f"length of testing dataset: {n_data}")
 
@@ -214,7 +196,6 @@ def main(config):
         assert os.path.isfile(config.load_path)
         load_checkpoint(config, model, optimizer, scheduler)
         logger.info("==> checking loaded ckpt")
-        validate('resume', 'val', val_loader, model, criterion, config)
         validate('resume', 'test', test_loader, model, criterion, config)
 
     # tensorboard
@@ -233,12 +214,7 @@ def main(config):
         logger.info('epoch {}, total time {:.2f}, lr {:.5f}'.format(epoch,
                                                                     (time.time() - tic),
                                                                     optimizer.param_groups[0]['lr']))
-        if epoch % config.val_freq == 0:
-            validate(epoch, 'val', val_loader, model, criterion, config)
-            validate(epoch, 'test', test_loader, model, criterion, config)
-        else:
-            validate(epoch, 'val', val_loader, model, criterion, config, num_votes=1)
-            validate(epoch, 'test', test_loader, model, criterion, config, num_votes=1)
+        acc, msIoU, mIoU = validate(epoch, test_loader, model, criterion, config, num_votes=1)
 
         if dist.get_rank() == 0:
             # save model
@@ -247,6 +223,9 @@ def main(config):
         if summary_writer is not None:
             # tensorboard logger
             summary_writer.add_scalar('ins_loss', loss, epoch)
+            summary_writer.add_scalar('test_acc', acc, epoch)
+            summary_writer.add_scalar('msIoU', msIoU, epoch)
+            summary_writer.add_scalar('mIoU', mIoU, epoch)
             summary_writer.add_scalar('learning_rate', optimizer.param_groups[0]['lr'], epoch)
 
 
@@ -260,11 +239,13 @@ def train(epoch, train_loader, model, criterion, optimizer, scheduler, config):
     data_time = AverageMeter()
     loss_meter = AverageMeter()
     end = time.time()
-
-    for idx, (points, mask, features, points_labels, shape_labels) in enumerate(train_loader):
+    for idx, (points, mask, points_labels, shape_labels) in enumerate(train_loader):
         data_time.update(time.time() - end)
         bsz = points.size(0)
         # forward
+        features = points
+        features = features.transpose(1, 2).contiguous()
+
         points = points.cuda(non_blocking=True)
         mask = mask.cuda(non_blocking=True)
         features = features.cuda(non_blocking=True)
@@ -276,8 +257,6 @@ def train(epoch, train_loader, model, criterion, optimizer, scheduler, config):
 
         optimizer.zero_grad()
         loss.backward()
-        if config.grid_clip_norm > 0:
-            torch.nn.utils.clip_grad_norm_(model.parameters(), config.grid_clip_norm)
         optimizer.step()
         scheduler.step()
 
@@ -295,7 +274,7 @@ def train(epoch, train_loader, model, criterion, optimizer, scheduler, config):
     return loss_meter.avg
 
 
-def validate(epoch, split, test_loader, model, criterion, config, num_votes=10):
+def validate(epoch, test_loader, model, criterion, config, num_votes=10):
     """
     One epoch validating
     """
@@ -304,34 +283,34 @@ def validate(epoch, split, test_loader, model, criterion, config, num_votes=10):
 
     model.eval()
     with torch.no_grad():
+        all_logits = []
+        all_points_labels = []
+        all_shape_labels = []
+        all_masks = []
         end = time.time()
-        vote_logits = None
-        vote_points_labels = None
-        vote_shape_labels = None
         TS = d_utils.BatchPointcloudScaleAndJitter(scale_low=config.scale_low,
                                                    scale_high=config.scale_high,
                                                    std=config.noise_std,
                                                    clip=config.noise_clip)
-        for v in range(num_votes):
-            all_logits = []
-            all_points_labels = []
-            all_shape_labels = []
-            for idx, (points, mask, features, points_labels, shape_labels) in enumerate(test_loader):
+
+        for idx, (points_orig, mask, points_labels, shape_labels) in enumerate(test_loader):
+            vote_logits = None
+            vote_points_labels = None
+            vote_shape_labels = None
+            vote_masks = None
+            for v in range(num_votes):
+                batch_logits = []
+                batch_points_labels = []
+                batch_shape_labels = []
+                batch_masks = []
                 # augment for voting
                 if v > 0:
-                    points = TS(points)
-                    if config.input_features_dim == 3:
-                        features = points
-                        features = features.transpose(1, 2).contiguous()
-                    elif config.input_features_dim == 4:
-                        features = torch.ones(size=(points.shape[0], points.shape[1], 1), dtype=torch.float32)
-                        features = torch.cat([features, points], -1)
-                        features = features.transpose(1, 2).contiguous()
-                    else:
-                        raise NotImplementedError(
-                            f"input_features_dim {config.input_features_dim} in voting not supported")
-
+                    points = TS(points_orig)
+                else:
+                    points = points_orig
                 # forward
+                features = points
+                features = features.transpose(1, 2).contiguous()
                 points = points.cuda(non_blocking=True)
                 mask = mask.cuda(non_blocking=True)
                 features = features.cuda(non_blocking=True)
@@ -348,36 +327,46 @@ def validate(epoch, split, test_loader, model, criterion, config, num_votes=10):
                     sl = shape_labels[ib]
                     logits = pred[sl][ib]
                     pl = points_labels[ib]
-                    all_logits.append(logits.cpu().numpy())
-                    all_points_labels.append(pl.cpu().numpy())
-                    all_shape_labels.append(sl.cpu().numpy())
+                    pmk = mask[ib]
+                    batch_logits.append(logits.cpu().numpy())
+                    batch_points_labels.append(pl.cpu().numpy())
+                    batch_shape_labels.append(sl.cpu().numpy())
+                    batch_masks.append(pmk.cpu().numpy().astype(np.bool))
 
                 # measure elapsed time
                 batch_time.update(time.time() - end)
                 end = time.time()
-                if idx % config.print_freq == 0:
-                    logger.info(
-                        f'Test: [{idx}/{len(test_loader)}]\t'
-                        f'Time {batch_time.val:.3f} ({batch_time.avg:.3f})\t'
-                        f'Loss {losses.val:.4f} ({losses.avg:.4f})')
 
-            if vote_logits is None:
-                vote_logits = all_logits
-                vote_points_labels = all_points_labels
-                vote_shape_labels = all_shape_labels
-            else:
-                for i in range(len(vote_logits)):
-                    vote_logits[i] = vote_logits[i] + (all_logits[i] - vote_logits[i]) / (v + 1)
+                if vote_logits is None:
+                    vote_logits = batch_logits
+                    vote_points_labels = batch_points_labels
+                    vote_shape_labels = batch_shape_labels
+                    vote_masks = batch_masks
+                else:
+                    for i in range(len(vote_logits)):
+                        vote_logits[i] = vote_logits[i] + (batch_logits[i] - vote_logits[i]) / (v + 1)
 
-            msIoU, mpIoU, mmsIoU, mmpIoU = partnet_metrics(config.num_classes, config.num_parts,
-                                                           vote_shape_labels,
-                                                           vote_logits,
-                                                           vote_points_labels)
-            logger.info(f'E{epoch} V{v} {split} * mmsIoU {mmsIoU:.3%} mmpIoU {mmpIoU:.3%}')
-            logger.info(f'E{epoch} V{v} {split} * msIoU {msIoU}')
-            logger.info(f'E{epoch} V{v} {split} * mpIoU {mpIoU}')
+            all_logits += vote_logits
+            all_points_labels += vote_points_labels
+            all_shape_labels += vote_shape_labels
+            all_masks += vote_masks
+            if idx % config.print_freq == 0:
+                logger.info(
+                    f'V{num_votes} Test: [{idx}/{len(test_loader)}]\t'
+                    f'Time {batch_time.val:.3f} ({batch_time.avg:.3f})\t'
+                    f'Loss {losses.val:.4f} ({losses.avg:.4f})')
 
-    return mmsIoU, mmpIoU
+        acc, shape_ious, msIoU, mIoU = shapenetpart_metrics(config.num_classes,
+                                                            config.num_parts,
+                                                            all_shape_labels,
+                                                            all_logits,
+                                                            all_points_labels,
+                                                            all_masks)
+        logger.info(f'E{epoch} V{num_votes} * mIoU {mIoU:.3%} msIoU {msIoU:.3%}')
+        logger.info(f'E{epoch} V{num_votes} * Acc {acc:.3%}')
+        logger.info(f'E{epoch} V{num_votes} * shape_ious {shape_ious}')
+
+    return acc, msIoU, mIoU
 
 
 if __name__ == "__main__":
@@ -392,7 +381,7 @@ if __name__ == "__main__":
     os.makedirs(opt.log_dir, exist_ok=True)
     os.environ["JOB_LOG_DIR"] = config.log_dir
 
-    logger = setup_logger(output=config.log_dir, distributed_rank=dist.get_rank(), name="partnet")
+    logger = setup_logger(output=config.log_dir, distributed_rank=dist.get_rank(), name="shapenetpart")
     if dist.get_rank() == 0:
         path = os.path.join(config.log_dir, "config.json")
         with open(path, 'w') as f:

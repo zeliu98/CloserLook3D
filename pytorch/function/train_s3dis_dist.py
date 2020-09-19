@@ -38,6 +38,7 @@ def parse_option():
     parser.add_argument('--num_points', type=int, help='num_points')
     parser.add_argument('--num_steps', type=int, help='num_steps')
     parser.add_argument('--base_learning_rate', type=float, help='base learning rate')
+    parser.add_argument('--weight_decay', type=float, help='weight_decay')
     parser.add_argument('--epochs', type=int, help='number of training epochs')
     parser.add_argument('--start_epoch', type=int, help='used for resume')
 
@@ -68,7 +69,7 @@ def parse_option():
     config.local_rank = args.local_rank
 
     ddir_name = args.cfg.split('.')[-2].split('/')[-1]
-    config.log_dir = os.path.join(args.log_dir, 's3dis', ddir_name)
+    config.log_dir = os.path.join(args.log_dir, 's3dis', f'{ddir_name}_{int(time.time())}')
 
     if args.batch_size:
         config.batch_size = args.batch_size
@@ -78,6 +79,8 @@ def parse_option():
         config.num_steps = args.num_steps
     if args.base_learning_rate:
         config.base_learning_rate = args.base_learning_rate
+    if args.weight_decay:
+        config.weight_decay = args.weight_decay
     if args.epochs:
         config.epochs = args.epochs
     if args.start_epoch:
@@ -101,7 +104,8 @@ def get_loader(config):
         d_utils.PointcloudRandomRotate(x_range=config.x_angle_range, y_range=config.y_angle_range,
                                        z_range=config.z_angle_range),
         d_utils.PointcloudScaleAndJitter(scale_low=config.scale_low, scale_high=config.scale_high,
-                                         std=config.noise_std, augment_symmetries=config.augment_symmetries),
+                                         std=config.noise_std, clip=config.noise_clip,
+                                         augment_symmetries=config.augment_symmetries),
     ])
 
     test_transforms = transforms.Compose([
@@ -268,7 +272,7 @@ def train(epoch, train_loader, model, criterion, optimizer, scheduler, config):
 
         optimizer.zero_grad()
         loss.backward()
-        torch.nn.utils.clip_grad_norm_(model.parameters(), 100)
+        torch.nn.utils.clip_grad_norm_(model.parameters(), 10)
         optimizer.step()
         scheduler.step()
 
@@ -315,7 +319,8 @@ def validate(epoch, test_loader, model, criterion, runing_vote_logits, config, n
         RT = d_utils.BatchPointcloudRandomRotate(x_range=config.x_angle_range, y_range=config.y_angle_range,
                                                  z_range=config.z_angle_range)
         TS = d_utils.BatchPointcloudScaleAndJitter(scale_low=config.scale_low, scale_high=config.scale_high,
-                                                   std=config.noise_std, augment_symmetries=config.augment_symmetries)
+                                                   std=config.noise_std, clip=config.noise_clip,
+                                                   augment_symmetries=config.augment_symmetries)
         for v in range(num_votes):
             test_loader.dataset.epoch = (0 + v) if isinstance(epoch, str) else (epoch + v) % 20
             predictions = []
@@ -404,6 +409,7 @@ if __name__ == "__main__":
     torch.backends.cudnn.deterministic = True
 
     os.makedirs(opt.log_dir, exist_ok=True)
+    os.environ["JOB_LOG_DIR"] = config.log_dir
 
     logger = setup_logger(output=config.log_dir, distributed_rank=dist.get_rank(), name="s3dis")
     if dist.get_rank() == 0:

@@ -31,15 +31,15 @@ class ClassifierResNet(nn.Module):
         self.classifier = nn.Sequential(
             nn.Linear(16 * width, 8 * width),
             nn.BatchNorm1d(8 * width),
-            nn.LeakyReLU(inplace=True),
+            nn.ReLU(inplace=True),
             nn.Dropout(0.5),
             nn.Linear(8 * width, 4 * width),
             nn.BatchNorm1d(4 * width),
-            nn.LeakyReLU(inplace=True),
+            nn.ReLU(inplace=True),
             nn.Dropout(0.5),
             nn.Linear(4 * width, 2 * width),
             nn.BatchNorm1d(2 * width),
-            nn.LeakyReLU(inplace=True),
+            nn.ReLU(inplace=True),
             nn.Dropout(0.5),
             nn.Linear(2 * width, num_classes))
 

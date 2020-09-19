@@ -36,19 +36,19 @@ class SceneSegHeadResNet(nn.Module):
 
         self.up_conv0 = nn.Sequential(nn.Conv1d(24 * width, 4 * width, kernel_size=1, bias=False),
                                       nn.BatchNorm1d(4 * width),
-                                      nn.LeakyReLU(inplace=True))
+                                      nn.ReLU(inplace=True))
         self.up_conv1 = nn.Sequential(nn.Conv1d(8 * width, 2 * width, kernel_size=1, bias=False),
                                       nn.BatchNorm1d(2 * width),
-                                      nn.LeakyReLU(inplace=True))
+                                      nn.ReLU(inplace=True))
         self.up_conv2 = nn.Sequential(nn.Conv1d(4 * width, width, kernel_size=1, bias=False),
                                       nn.BatchNorm1d(width),
-                                      nn.LeakyReLU(inplace=True))
+                                      nn.ReLU(inplace=True))
         self.up_conv3 = nn.Sequential(nn.Conv1d(2 * width, width // 2, kernel_size=1, bias=False),
                                       nn.BatchNorm1d(width // 2),
-                                      nn.LeakyReLU(inplace=True))
+                                      nn.ReLU(inplace=True))
         self.head = nn.Sequential(nn.Conv1d(width // 2, width // 2, kernel_size=1, bias=False),
                                   nn.BatchNorm1d(width // 2),
-                                  nn.LeakyReLU(inplace=True),
+                                  nn.ReLU(inplace=True),
                                   nn.Conv1d(width // 2, num_classes, kernel_size=1, bias=True))
 
     def forward(self, end_points):
@@ -103,22 +103,22 @@ class MultiPartSegHeadResNet(nn.Module):
 
         self.up_conv0 = nn.Sequential(nn.Conv1d(24 * width, 4 * width, kernel_size=1, bias=False),
                                       nn.BatchNorm1d(4 * width),
-                                      nn.LeakyReLU(inplace=True))
+                                      nn.ReLU(inplace=True))
         self.up_conv1 = nn.Sequential(nn.Conv1d(8 * width, 2 * width, kernel_size=1, bias=False),
                                       nn.BatchNorm1d(2 * width),
-                                      nn.LeakyReLU(inplace=True))
+                                      nn.ReLU(inplace=True))
         self.up_conv2 = nn.Sequential(nn.Conv1d(4 * width, width, kernel_size=1, bias=False),
                                       nn.BatchNorm1d(width),
-                                      nn.LeakyReLU(inplace=True))
+                                      nn.ReLU(inplace=True))
         self.up_conv3 = nn.Sequential(nn.Conv1d(2 * width, width // 2, kernel_size=1, bias=False),
                                       nn.BatchNorm1d(width // 2),
-                                      nn.LeakyReLU(inplace=True))
+                                      nn.ReLU(inplace=True))
         self.multi_shape_heads = nn.ModuleList()
         for i in range(num_classes):
             self.multi_shape_heads.append(
                 nn.Sequential(nn.Conv1d(width // 2, width // 2, kernel_size=1, bias=False),
                               nn.BatchNorm1d(width // 2),
-                              nn.LeakyReLU(inplace=True),
+                              nn.ReLU(inplace=True),
                               nn.Conv1d(width // 2, num_parts[i], kernel_size=1, bias=True)))
 
     def forward(self, end_points):

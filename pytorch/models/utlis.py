@@ -155,7 +155,14 @@ def create_kernel_points(radius, num_kpoints, num_kernels, dimension, fixed):
     num_tries = 100
 
     # Kernel directory
-    kernel_dir = os.path.join(ROOT_DIR, 'kernels', 'dispositions')
+    log_dir = os.environ.get("JOB_LOG_DIR", None)
+    load_dir = os.environ.get("JOB_LOAD_DIR", None)
+    if load_dir is not None:
+        kernel_dir = os.path.join(load_dir, 'kernels', 'dispositions')
+    elif log_dir is not None:
+        kernel_dir = os.path.join(log_dir, 'kernels', 'dispositions')
+    else:
+        kernel_dir = os.path.join(ROOT_DIR, 'kernels', 'dispositions')
     if not os.path.exists(kernel_dir):
         os.makedirs(kernel_dir, exist_ok=True)
 
@@ -174,7 +181,7 @@ def create_kernel_points(radius, num_kpoints, num_kernels, dimension, fixed):
 
     if os.path.exists(specific_kernel_file):
         kernels = np.load(specific_kernel_file)
-        # print(f"============================>r{radius} rank{dist.get_rank()} loaded <=======================")
+        print(f"============================>{specific_kernel_file} loaded <=======================")
         # print(kernels)
     elif dist.get_rank() != 0:
         while True:

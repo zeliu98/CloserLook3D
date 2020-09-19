@@ -54,7 +54,7 @@ def parse_option():
     config.local_rank = args.local_rank
 
     ddir_name = args.cfg.split('.')[-2].split('/')[-1]
-    config.log_dir = os.path.join(args.log_dir, 's3dis', ddir_name)
+    config.log_dir = os.path.join(args.log_dir, 's3dis', f'{ddir_name}_{int(time.time())}')
 
     if args.batch_size:
         config.batch_size = args.batch_size
@@ -155,7 +155,8 @@ def validate(epoch, test_loader, model, criterion, config, num_votes=10):
         RT = d_utils.BatchPointcloudRandomRotate(x_range=config.x_angle_range, y_range=config.y_angle_range,
                                                  z_range=config.z_angle_range)
         TS = d_utils.BatchPointcloudScaleAndJitter(scale_low=config.scale_low, scale_high=config.scale_high,
-                                                   std=config.noise_std, augment_symmetries=config.augment_symmetries)
+                                                   std=config.noise_std, clip=config.noise_clip,
+                                                   augment_symmetries=config.augment_symmetries)
 
         for v in range(num_votes):
             test_loader.dataset.epoch = v
@@ -228,6 +229,7 @@ if __name__ == "__main__":
     torch.backends.cudnn.deterministic = True
 
     os.makedirs(opt.log_dir, exist_ok=True)
+    os.environ["JOB_LOAD_DIR"] = os.path.dirname(config.load_path)
 
     logger = setup_logger(output=config.log_dir, distributed_rank=dist.get_rank(), name="s3dis_eval")
     if dist.get_rank() == 0:
