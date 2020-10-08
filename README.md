@@ -36,22 +36,22 @@ Three datasets are tested, including [ModelNet](https://modelnet.cs.princeton.ed
 |PosPool*| 93.2 | [Google](https://drive.google.com/drive/folders/10P_Gu5cmaJqg4VyXa27iDi32LH4rpc7o?usp=sharing) / [Baidu(mjb1)](https://pan.baidu.com/s/1pNBfE2bdmcSY1gG6zQv8Dw) | [Google](https://drive.google.com/file/d/1HSu6K-prMka4tnjx6pMh82oy2igbKzCV/view?usp=sharing) / [Baidu(qcc6)](https://pan.baidu.com/s/1vtwsqdCYUXKiMBc240JhqA) |
 
 ### S3DIS
-|Method | mIoU | Tensorflow Model |
-|:---:|:---:|:---:|
-|Point-wise MLP|  66.2 | [Google](https://drive.google.com/drive/folders/1a02JAQnx3WbZ2ngICNSG6fkZ-Mq_knm7?usp=sharing) / [Baidu(4mhy)](https://pan.baidu.com/s/17wJF7G0FYgMlTzzeJDmFnQ)|
-|Pseudo Grid| 65.9 | [Google](https://drive.google.com/drive/folders/1DDkYHliFwlwKkloqBUXke0qP125yXurD?usp=sharing) / [Baidu(06ta)](https://pan.baidu.com/s/1WekK2KKsccsflKsjSVn6ig) |
-|Adapt Weights| 66.5 |[Google](https://drive.google.com/drive/folders/1UtSqxg1Bbfk21Rq7SuLllVbm0rDa3Bli?usp=sharing) / [Baidu(7w43)](https://pan.baidu.com/s/1tohALjQq771sPLesBEfD2A) |
-|PosPool| 66.5 | [Google](https://drive.google.com/drive/folders/15xzFso1lZy-WrAx57eJ7wQd4zYTYPMfz?usp=sharing) / [Baidu(gqqe)](https://pan.baidu.com/s/19hntRNJYDnQ80RpzqheyTw) |
-|PosPool*| 66.7 | [Google](https://drive.google.com/drive/folders/1MT-262K2m65mkUq077DhrFTMqnM-XdEa?usp=sharing) / [Baidu(qtkw)](https://pan.baidu.com/s/1hvBtQl0ILK18qlyeCOvNMQ) |
+|Method | mIoU | Tensorflow Model | Pytorch Model|
+|:---:|:---:|:---:|:---:|
+|Point-wise MLP|  66.2 | [Google](https://drive.google.com/drive/folders/1a02JAQnx3WbZ2ngICNSG6fkZ-Mq_knm7?usp=sharing) / [Baidu(4mhy)](https://pan.baidu.com/s/17wJF7G0FYgMlTzzeJDmFnQ) | [Google](https://drive.google.com/file/d/1WuXb9ajGyE77eAxIrDvQjNzCclWIxf1B/view?usp=sharing) / [Baidu(53as)](https://pan.baidu.com/s/1PRG7sL_Ply_IhuctKQq96g)|
+|Pseudo Grid| 65.9 | [Google](https://drive.google.com/drive/folders/1DDkYHliFwlwKkloqBUXke0qP125yXurD?usp=sharing) / [Baidu(06ta)](https://pan.baidu.com/s/1WekK2KKsccsflKsjSVn6ig) | [Google](https://drive.google.com/drive/folders/1_69Wbe_Au1kLD18zwEoTa3Qa1bLLZY2u?usp=sharing) / [Baidu(8skn)](https://pan.baidu.com/s/1sOI03cbjozsZOKs5Pu7b9w) |
+|Adapt Weights| 66.5 |[Google](https://drive.google.com/drive/folders/1UtSqxg1Bbfk21Rq7SuLllVbm0rDa3Bli?usp=sharing) / [Baidu(7w43)](https://pan.baidu.com/s/1tohALjQq771sPLesBEfD2A) | [Google](https://drive.google.com/file/d/1bWGufvua-o1d7P3awaTYnRaUJzYWrizn/view?usp=sharing) / [Baidu(b7zv)](https://pan.baidu.com/s/170hstXHc1eRyVWmRsaHmmg) |
+|PosPool| 66.5 | [Google](https://drive.google.com/drive/folders/15xzFso1lZy-WrAx57eJ7wQd4zYTYPMfz?usp=sharing) / [Baidu(gqqe)](https://pan.baidu.com/s/19hntRNJYDnQ80RpzqheyTw) | [Google](https://drive.google.com/file/d/12DOacsRjXdyawd_FKS7DQ2LL93ldy-Hm/view?usp=sharing) / [Baidu(z752)](https://pan.baidu.com/s/1Z-0j3flGOFAJbt3v-Hqlcg) |
+|PosPool*| 66.7 | [Google](https://drive.google.com/drive/folders/1MT-262K2m65mkUq077DhrFTMqnM-XdEa?usp=sharing) / [Baidu(qtkw)](https://pan.baidu.com/s/1hvBtQl0ILK18qlyeCOvNMQ) | [Google](https://drive.google.com/file/d/1KNGOrv4O0kQBzp_BnHfvoy2_T5Xbe-eM/view?usp=sharing) / [Baidu(r96f)](https://pan.baidu.com/s/1YVREDgqAiKZOxcSyXInlRA) |
 
 ### PartNet
-|Method | mIoU (val)| mIoU (test) | Tensorflow Model| 
-|:---:|:---:|:---:|:---:|
-|Point-wise MLP| 48.1 | 51.2 | [Google](https://drive.google.com/drive/folders/13xAG9D6L0bBBXM8kS6pDYEzApOlae7TZ?usp=sharing) / [Baidu(zw15)](https://pan.baidu.com/s/1jh_Pk44QhXs2m1rCmk5STQ) |
-|Pseudo Grid| 50.8 | 53.0 | [Google](https://drive.google.com/drive/folders/1cGdr1vnYB1ZkMjDUfUZ2YCfoscr5NyV0?usp=sharing) / [Baidu(0mtr)](https://pan.baidu.com/s/114xIbeOzyqOo-vL1z-CVJA) |
-|Adapt Weights| 50.1 | 53.5 | [Google](https://drive.google.com/drive/folders/1am3oRLnvj5crHXkLl00gAmdE54vGucPe?usp=sharing) / [Baidu(551l)](https://pan.baidu.com/s/1S58JVu2IFxphRO1DkNhiOw) |
-|PosPool| 50.0 | 53.4 | [Google](https://drive.google.com/drive/folders/1KxjArkFtRUCDkVU8CLO3halL1sU3aZ0N?usp=sharing) / [Baidu(rb4x)](https://pan.baidu.com/s/1CUyjDucCp7xU5MDt-a2Y9Q) |
-|PosPool*| 50.6 | 53.8 | [Google](https://drive.google.com/drive/folders/1eKfuVctpSiAsIpdT0JA3Ns5Su0UhN0QA?usp=sharing) / [Baidu(2ts3)](https://pan.baidu.com/s/1oE2BJJBw137DJ_D7iFweFw) |
+|Method | mIoU (val)| mIoU (test) | Tensorflow Model| Pytorch Model|
+|:---:|:---:|:---:|:---:|:---:|
+|Point-wise MLP| 48.1 | 51.2 | [Google](https://drive.google.com/drive/folders/13xAG9D6L0bBBXM8kS6pDYEzApOlae7TZ?usp=sharing) / [Baidu(zw15)](https://pan.baidu.com/s/1jh_Pk44QhXs2m1rCmk5STQ) | [Google](https://drive.google.com/file/d/19vmcCNitQa-CRSm-5eD2ekrLKb_l57P5/view?usp=sharing) / [Baidu(wxff)](https://pan.baidu.com/s/1ecBICMmGyNpV9QC0DT9RBw) |
+|Pseudo Grid| 50.8 | 53.0 | [Google](https://drive.google.com/drive/folders/1cGdr1vnYB1ZkMjDUfUZ2YCfoscr5NyV0?usp=sharing) / [Baidu(0mtr)](https://pan.baidu.com/s/114xIbeOzyqOo-vL1z-CVJA) | [Google](https://drive.google.com/drive/folders/1qroLeAPSmaSPX_02CEq1LLtbQDQ-lXo6?usp=sharing) / [Baidu(n6b7)](https://pan.baidu.com/s/1eZLCDeyu0Ms8CZFt3CsJmA) |
+|Adapt Weights| 50.1 | 53.5 | [Google](https://drive.google.com/drive/folders/1am3oRLnvj5crHXkLl00gAmdE54vGucPe?usp=sharing) / [Baidu(551l)](https://pan.baidu.com/s/1S58JVu2IFxphRO1DkNhiOw) | [Google](https://drive.google.com/file/d/1914kK4DRwdKI8-2wIMNvE4WBEBplpbYr/view?usp=sharing) / [Baidu(pc22)](https://pan.baidu.com/s/10o8aZ96eB9Qwx-IOAvHuMA) |
+|PosPool| 50.0 | 53.4 | [Google](https://drive.google.com/drive/folders/1KxjArkFtRUCDkVU8CLO3halL1sU3aZ0N?usp=sharing) / [Baidu(rb4x)](https://pan.baidu.com/s/1CUyjDucCp7xU5MDt-a2Y9Q) | [Google](https://drive.google.com/file/d/11d-gUIPV2qVIiDT2T6yudQqmJ4Tu-51z/view?usp=sharing) / [Baidu(3qv5)](https://pan.baidu.com/s/1oBi15B4LD_krWYTYr2Kp2A) |
+|PosPool*| 50.6 | 53.8 | [Google](https://drive.google.com/drive/folders/1eKfuVctpSiAsIpdT0JA3Ns5Su0UhN0QA?usp=sharing) / [Baidu(2ts3)](https://pan.baidu.com/s/1oE2BJJBw137DJ_D7iFweFw) | [Google](https://drive.google.com/file/d/1sOs2T--sw2wT4UXHgVbI5Kr6e1xDxvI0/view?usp=sharing) / [Baidu(czyq)](https://pan.baidu.com/s/19q0Gdpzr6n-i6O3PnKh9SA) |
 
 ### ShapeNetPart
 |Method | mIoU | msIoU | Acc |Pytorch Model |
