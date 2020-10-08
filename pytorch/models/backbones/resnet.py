@@ -30,19 +30,19 @@ class Bottleneck(nn.Module):
             self.maxpool = MaskedMaxPool(npoint, radius, nsample, sampleDl)
 
         self.conv1 = nn.Sequential(nn.Conv1d(in_channels, out_channels // bottleneck_ratio, kernel_size=1, bias=False),
-                                   nn.BatchNorm1d(out_channels // bottleneck_ratio),
+                                   nn.BatchNorm1d(out_channels // bottleneck_ratio, momentum=config.bn_momentum),
                                    nn.ReLU(inplace=True))
         self.local_aggregation = LocalAggregation(out_channels // bottleneck_ratio,
                                                   out_channels // bottleneck_ratio,
                                                   radius, nsample, config)
         self.conv2 = nn.Sequential(nn.Conv1d(out_channels // bottleneck_ratio, out_channels, kernel_size=1, bias=False),
-                                   nn.BatchNorm1d(out_channels))
+                                   nn.BatchNorm1d(out_channels, momentum=config.bn_momentum))
         self.relu = nn.ReLU(inplace=True)
 
         if in_channels != out_channels:
             self.shortcut = nn.Sequential(
                 nn.Conv1d(in_channels, out_channels, kernel_size=1, bias=False),
-                nn.BatchNorm1d(out_channels))
+                nn.BatchNorm1d(out_channels, momentum=config.bn_momentum))
 
     def forward(self, xyz, mask, features):
         if self.downsample:
@@ -92,7 +92,7 @@ class ResNet(nn.Module):
         self.input_features_dim = input_features_dim
 
         self.conv1 = nn.Sequential(nn.Conv1d(input_features_dim, width // 2, kernel_size=1, bias=False),
-                                   nn.BatchNorm1d(width // 2),
+                                   nn.BatchNorm1d(width // 2, momentum=config.bn_momentum),
                                    nn.ReLU(inplace=True))
         self.la1 = LocalAggregation(width // 2, width // 2, radius, nsamples[0], config)
         self.btnk1 = Bottleneck(width // 2, width, bottleneck_ratio, radius, nsamples[0], config)

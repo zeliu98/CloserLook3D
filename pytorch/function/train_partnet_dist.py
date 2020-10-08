@@ -99,8 +99,8 @@ def get_loader(args):
     # set the data loader
     train_transforms = transforms.Compose([
         d_utils.PointcloudToTensor(),
-        d_utils.PointcloudScale(scale_low=config.scale_low, scale_high=config.scale_high),
-        d_utils.PointcloudJitter(std=config.noise_std, clip=config.noise_clip),
+        d_utils.PointcloudScaleAndJitter(scale_low=config.scale_low, scale_high=config.scale_high,
+                                         std=config.noise_std, clip=config.noise_clip),
     ])
 
     test_transforms = transforms.Compose([
@@ -196,11 +196,11 @@ def main(config):
                                     weight_decay=config.weight_decay)
     elif config.optimizer == 'adam':
         optimizer = torch.optim.Adam(model.parameters(),
-                                     lr=config.batch_size * dist.get_world_size() / 16 * config.base_learning_rate,
+                                     lr=config.base_learning_rate,
                                      weight_decay=config.weight_decay)
     elif config.optimizer == 'adamW':
         optimizer = torch.optim.AdamW(model.parameters(),
-                                      lr=config.batch_size * dist.get_world_size() / 16 * config.base_learning_rate,
+                                      lr=config.base_learning_rate,
                                       weight_decay=config.weight_decay)
     else:
         raise NotImplementedError(f"Optimizer {config.optimizer} not supported")

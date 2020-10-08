@@ -11,7 +11,6 @@ def build_classification(config):
                                 config.backbone, config.head, config.num_classes, config.input_features_dim,
                                 config.radius, config.sampleDl, config.nsamples, config.npoints,
                                 config.width, config.depth, config.bottleneck_ratio)
-    model.init_weights()
     criterion = LabelSmoothingCrossEntropyLoss()
     return model, criterion
 
@@ -21,7 +20,6 @@ def build_multi_part_segmentation(config):
                                        config.input_features_dim,
                                        config.radius, config.sampleDl, config.nsamples, config.npoints,
                                        config.width, config.depth, config.bottleneck_ratio)
-    model.init_weights()
     criterion = MultiShapeCrossEntropy(config.num_classes)
     return model, criterion
 
@@ -31,7 +29,6 @@ def build_scene_segmentation(config):
                                    config.input_features_dim,
                                    config.radius, config.sampleDl, config.nsamples, config.npoints,
                                    config.width, config.depth, config.bottleneck_ratio)
-    model.init_weights()
     criterion = MaskedCrossEntropy()
     return model, criterion
 

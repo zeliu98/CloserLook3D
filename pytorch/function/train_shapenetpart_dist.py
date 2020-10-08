@@ -178,11 +178,11 @@ def main(config):
                                     weight_decay=config.weight_decay)
     elif config.optimizer == 'adam':
         optimizer = torch.optim.Adam(model.parameters(),
-                                     lr=config.batch_size * dist.get_world_size() / 16 * config.base_learning_rate,
+                                     lr=config.base_learning_rate,
                                      weight_decay=config.weight_decay)
     elif config.optimizer == 'adamW':
         optimizer = torch.optim.AdamW(model.parameters(),
-                                      lr=config.batch_size * dist.get_world_size() / 16 * config.base_learning_rate,
+                                      lr=config.base_learning_rate,
                                       weight_decay=config.weight_decay)
     else:
         raise NotImplementedError(f"Optimizer {config.optimizer} not supported")

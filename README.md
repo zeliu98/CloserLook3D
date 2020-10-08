@@ -3,6 +3,8 @@
 By [Ze Liu](https://github.com/zeliu98), [Han Hu](https://github.com/ancientmooner), [Yue Cao](https://github.com/caoyue10), [Zheng Zhang](https://github.com/stupidZZ), [Xin Tong](http://www.xtong.info/)
 
 **Updates**
+- Oct  9, 2020: release more pytorch models for PartNet and S3DIS.
+- Sep 19, 2020: add shapenetpart segmentation.
 - July 3, 2020: initial release.
 
 ## Introduction

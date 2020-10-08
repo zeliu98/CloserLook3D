@@ -1,27 +1,27 @@
 datasets: 'modelnet40'
 data_root: ''
-num_classes:  40
-input_features_dim:  3
-batch_size:  16
-num_points:  10000
-num_workers:  4
+num_classes: 40
+input_features_dim: 3
+batch_size: 16
+num_points: 10000
+num_workers: 4
 # data augmentation
-x_angle_range:  0.0
-y_angle_range:  0.0
-z_angle_range:  0.0
-scale_low:  0.6
-scale_high:  1.4
-noise_std:  0.002
-noise_clip:  0.05
-translate_range:  0.0
+x_angle_range: 0.0
+y_angle_range: 0.0
+z_angle_range: 0.0
+scale_low: 0.6
+scale_high: 1.4
+noise_std: 0.002
+noise_clip: 0.05
+translate_range: 0.0
 
 # ---------------------------------------------------------------------------- #
 # Model
 # ---------------------------------------------------------------------------- #
-backbone:  'resnet'
-head:  'resnet_cls'
-radius:  0.05
-sampleDl:  0.02
+backbone: 'resnet'
+head: 'resnet_cls'
+radius: 0.05
+sampleDl: 0.02
 nsamples:
   - 20
   - 31
@@ -33,40 +33,40 @@ npoints:
   - 512
   - 128
   - 32
-width:  144
-depth:  2
-bottleneck_ratio:  2
+width: 144
+depth: 2
+bottleneck_ratio: 2
 
 # ---------------------------------------------------------------------------- #
 # Training options
 # ---------------------------------------------------------------------------- #
 epochs: 600
-start_epoch:  1
-base_learning_rate:  0.002
-lr_scheduler:  'step'  # step,cosine
-optimizer:  'sgd'
-warmup_epoch:  -1
-lr_decay_steps:  1
-lr_decay_rate:  0.9885531
-weight_decay:  0.001
-momentum:  0.98
+start_epoch: 1
+base_learning_rate: 0.002
+lr_scheduler: 'step'  # step,cosine
+optimizer: 'sgd'
+warmup_epoch: -1
+lr_decay_steps: 1
+lr_decay_rate: 0.9885531
+weight_decay: 0.001
+momentum: 0.98
 
 # ---------------------------------------------------------------------------- #
 # io and misc
 # ---------------------------------------------------------------------------- #
-load_path:  ''
-print_freq:  10
-save_freq:  10
-val_freq:  10
-log_dir:  './output'
-local_rank:  0
-amp_opt_level:  ''
-rng_seed:  0
+load_path: ''
+print_freq: 10
+save_freq: 10
+val_freq: 10
+log_dir: './output'
+local_rank: 0
+amp_opt_level: ''
+rng_seed: 0
 
 # ---------------------------------------------------------------------------- #
 # Local Aggregation options
 # ---------------------------------------------------------------------------- #
-local_aggregation_type:  'pseudo_grid'
+local_aggregation_type: 'pseudo_grid'
 pseudo_grid:
   fixed_kernel_points: 'center'
   KP_influence: 'linear'

@@ -19,26 +19,26 @@ num_parts:
   - 51
   - 11
   - 6
-input_features_dim:  3
-batch_size:  8
-num_workers:  4
+input_features_dim: 3
+batch_size: 8
+num_workers: 4
 # data augmentation
-x_angle_range:  0.0
-y_angle_range:  0.0
-z_angle_range:  0.0
-scale_low:  0.8
-scale_high:  1.2
-noise_std:  0.001
-noise_clip:  0.05
-translate_range:  0.0
+x_angle_range: 0.0
+y_angle_range: 0.0
+z_angle_range: 0.0
+scale_low: 0.8
+scale_high: 1.2
+noise_std: 0.001
+noise_clip: 0.05
+translate_range: 0.0
 
 # ---------------------------------------------------------------------------- #
 # Model
 # ---------------------------------------------------------------------------- #
-backbone:  'resnet'
-head:  'resnet_part_seg'
-radius:  0.05
-sampleDl:  0.02
+backbone: 'resnet'
+head: 'resnet_part_seg'
+radius: 0.05
+sampleDl: 0.02
 nsamples:
   - 23
   - 38
@@ -50,42 +50,42 @@ npoints:
   - 1024
   - 384
   - 64
-width:  144
-depth:  2
-bottleneck_ratio:  2
+width: 144
+depth: 2
+bottleneck_ratio: 2
 
 # ---------------------------------------------------------------------------- #
 # Training options
 # ---------------------------------------------------------------------------- #
-epochs: 600
-start_epoch:  1
-base_learning_rate:  0.000625
-lr_scheduler:  'step'  # step,cosine
-optimizer:  'adamW'
-warmup_epoch:  10
-warmup_multiplier:  100
-lr_decay_steps:  300
-lr_decay_rate:  0.1
-weight_decay:  0.001
-momentum:  0.98
+epochs: 300
+start_epoch: 1
+base_learning_rate: 0.00125
+lr_scheduler: 'step'  # step,cosine
+optimizer: 'adamW'
+warmup_epoch: -1
+lr_decay_steps: 90
+lr_decay_rate: 0.1
+weight_decay: 0.001
+momentum: 0.98
+bn_momentum: 0.01
 
 # ---------------------------------------------------------------------------- #
 # io and misc
 # ---------------------------------------------------------------------------- #
-load_path:  ''
-print_freq:  10
-save_freq:  10
-val_freq:  10
-log_dir:  './output'
-local_rank:  0
-amp_opt_level:  ''
-rng_seed:  0
+load_path: ''
+print_freq: 10
+save_freq: 10
+val_freq: 10
+log_dir: './output'
+local_rank: 0
+amp_opt_level: ''
+rng_seed: 0
 
 # ---------------------------------------------------------------------------- #
 # Local Aggregation options
 # ---------------------------------------------------------------------------- #
-local_aggregation_type:  'pospool'
+local_aggregation_type: 'pospool'
 pospool:
-  position_embedding:  'xyz'
-  reduction:  'avg'
+  position_embedding: 'xyz'
+  reduction: 'avg'
   output_conv: False

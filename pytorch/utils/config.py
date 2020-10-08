@@ -30,6 +30,7 @@ config.npoints = []
 config.width = 144
 config.depth = 2
 config.bottleneck_ratio = 2
+config.bn_momentum = 0.1
 
 # ---------------------------------------------------------------------------- #
 # Data options
